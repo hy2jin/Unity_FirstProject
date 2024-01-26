@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour
         ScoreManager sm = smObject.GetComponent<ScoreManager>();
         sm.currentScore++;
         sm.currentScoreUI.text = "Current Score: " + sm.currentScore.ToString();
+        if (sm.currentScore > sm.bestScore)
+        {
+            sm.bestScore = sm.currentScore;
+            sm.bestScoreUI.text = "Best Score: " + sm.bestScore.ToString();
+        }
 
         // 폭발 효과 생성
         GameObject explosion = Instantiate(explosionFactory);
