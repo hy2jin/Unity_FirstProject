@@ -27,6 +27,12 @@ public class Enemy : MonoBehaviour
     // 충돌 감지
     private void OnCollisionEnter(Collision collision)
     {
+        // 씬에서 ScoreManager 오브젝트를 가져옴
+        GameObject smObject = GameObject.Find("ScoreManager");
+        ScoreManager sm = smObject.GetComponent<ScoreManager>();
+        sm.currentScore++;
+        sm.currentScoreUI.text = "Current Score: " + sm.currentScore.ToString();
+
         // 폭발 효과 생성
         GameObject explosion = Instantiate(explosionFactory);
         explosion.transform.position = transform.position;
