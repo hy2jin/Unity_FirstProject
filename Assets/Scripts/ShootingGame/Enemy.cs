@@ -6,6 +6,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed = 5f;
+    // 폭발 공장
+    public GameObject explosionFactory;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,21 @@ public class Enemy : MonoBehaviour
     // 충돌 감지
     private void OnCollisionEnter(Collision collision)
     {
+        // 씬에서 ScoreManager 오브젝트를 가져옴
+        GameObject smObject = GameObject.Find("ScoreManager");
+        ScoreManager sm = smObject.GetComponent<ScoreManager>();
+        sm.currentScore++;
+        sm.currentScoreUI.text = "Current Score: " + sm.currentScore.ToString();
+        if (sm.currentScore > sm.bestScore)
+        {
+            sm.bestScore = sm.currentScore;
+            sm.bestScoreUI.text = "Best Score: " + sm.bestScore.ToString();
+        }
+
+        // 폭발 효과 생성
+        GameObject explosion = Instantiate(explosionFactory);
+        explosion.transform.position = transform.position;
+
         // 적 오브젝트 제거 (내 게임 오브젝트)
         Destroy(gameObject);
         // 플레이어 오브젝트 제거 (충돌 대상)
